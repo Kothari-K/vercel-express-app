@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+
+dotenv.config();
 const app = express();
 
 
-const mongoUrl = 'mongodb+srv://kotharikiran72:2ZA3AESEfrN8JThP@cluster0.qkrgpig.mongodb.net/?retryWrites=true&w=majority'
-// process.env.MONGODB_URI
-console.log(mongoUrl)
+const mongoUrl = process.env.MONGODB_URI
+
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
