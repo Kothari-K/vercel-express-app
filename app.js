@@ -1,55 +1,30 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+
 const dotenv = require('dotenv');
 
+
 dotenv.config();
+
 const app = express();
 
 
-const mongoUrl = process.env.MONGODB_URI
 
-mongoose.connect(mongoUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}) .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch(err => {
-    console.error('Failed to connect to MongoDB:', err);
-  });
-
-// Use bodyParser middleware for parsing JSON requests
-//app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-
-const Item = mongoose.model('user', new mongoose.Schema({
-  name: String,
-  email:String,
-  phone:String,
-}));
-
-app.get('/users', async (req, res) => {
-  const users = await Item.find();
-  res.json(users);
-});
-
-// API endpoint to store data
-app.post('/api/users', async (req, res) => {
-  console.log('body',req.body)
-  const { name, email, phone } = req.body;
-
-  const newItem = new Item({ name, email, phone });
-
-  try {
-    const savedItem = await newItem.save();
-    res.json(savedItem);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+// Use JSON parser for all non-webhook routes
+app.use((req, res, next) => {
+  if (req.originalUrl === process.env.STRIPE_WEBHOOK_PATH) {
+    next();
+  } else {
+    express.json()(req, res, next);
   }
 });
 
+
+const connectDB = require('./db')
+
+connectDB()
+
+app.use('', require('./routes/auth'));
+
+// Start your Express server
 app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+  console.log('Server is running on port 3000');
 });
