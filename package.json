@@ -1,19 +1,24 @@
 {
-  "name": "vercel-express-app",
+  "name": "mongodb",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "@sendgrid/mail": "^7.7.0",
+    "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^7.6.3",
-    "stripe": "^14.1.0"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.0.0",
+    "mongoose-unique-validator": "^4.0.0",
+    "multer": "^1.4.5-lts.1",
+    "stripe": "^14.3.0"
   }
 }
